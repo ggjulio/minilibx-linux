@@ -11,9 +11,13 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    # timeout-minutes: 5
     steps:
     - uses: actions/checkout@v2
-    - name: configure
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gcc make xorg libxext-dev libbsd-dev
+    - name: Run ./configure
       run: ./configure
     # - name: make
     #   run: make
