@@ -10,8 +10,8 @@ jobs:
   build:
 
     runs-on: ${{ matrix.os }}
-    # env:
-      # DISPLAY: ':99'
+    env:
+      DISPLAY: ':99'
     strategy:
       fail-fast: false
       matrix:
@@ -24,14 +24,14 @@ jobs:
       run: |
         sudo apt-get install gcc make xorg libxext-dev libbsd-dev
     - name: Install xdotool to simulate inputs (command-line X11 automation tool)
-      run: sudo apt install xdotool
+      run: sudo apt-get install xdotool
     - name: Run ./configure
       run: ./configure
     - name: Setup headless environment
       run: |
-        sudo apt-get install xvfb
-        xvfb-run --auto-servernum npm test
-      # Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
+        # sudo apt-get install xvfb
+        Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
+      # xvfb-run --auto-servernum npm test
     - name: Run ./run_tests.sh
       run: |
         cd test/
