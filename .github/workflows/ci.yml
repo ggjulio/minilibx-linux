@@ -29,7 +29,7 @@ jobs:
       run: |
         cd test/
         ls
-        ./run_tests.sh
+        sh run_tests.sh
     # - name: Run ./run_tests.sh + check leaks
     #   run: |
     #     echo "Info: still reachable report is not considered as a leak.\n   Thus, valgrind will not exit(1) (and it is good in our case)"
