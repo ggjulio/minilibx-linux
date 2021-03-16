@@ -10,6 +10,8 @@ jobs:
   build:
 
     runs-on: ${{ matrix.os }}
+    # env:
+      # DISPLAY: ':99'
     strategy:
       fail-fast: false
       matrix:
@@ -25,6 +27,11 @@ jobs:
       run: sudo apt install xdotool
     - name: Run ./configure
       run: ./configure
+    - name: Setup headless environment
+      run: |
+        sudo apt-get install xvfb
+        xvfb-run --auto-servernum npm test
+      # Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
     - name: Run ./run_tests.sh
       run: |
         cd test/
