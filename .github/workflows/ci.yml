@@ -28,7 +28,6 @@ jobs:
     - name: Run ./run_tests.sh
       run: |
         cd test/
-        ls
         sh run_tests.sh
     # - name: Run ./run_tests.sh + check leaks
     #   run: |

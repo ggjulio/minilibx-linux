@@ -2,7 +2,7 @@
 
 ###  Automated tests for ci
 
-set -e #x
+set -ex
 
 BOLD="\e[1m"
 RESET="\e[0m"
@@ -26,18 +26,12 @@ PID=""
 
 # to properly kill child process executed in background on exit
 exit_handler() {
-    [ $? -eq 0 ] && log_info "Sucess" && exit
-    # if [ $? -eq 0 ] && exit ; then
-    # 	# Code for zero exit:
-	# 	log_info "Sucess"
-	# 	exit 0
-    # else
-		# Code for non-zero exit:
-		if ! kill -s TERM "$PID" || ! wait "$PID" ; then
-			log_error "Something went wrong. Failed to kill pid" "$PID"
-		fi
-		log_error "Something went wrong. Pid $PID has been killed"
-	# fi
+	[ $? -eq 0 ] && log_info "Sucess" && exit 0
+	# Code for non-zero exit:
+	if ! kill -s TERM "$PID" || ! wait "$PID" ; then
+		log_error "Something went wrong. Failed to kill pid" "$PID"
+	fi
+	log_error "Something went wrong. Pid $PID has been killed"
 }
 # to properly quit ctrl+c
 int_handler(){
@@ -53,6 +47,7 @@ int_handler(){
 test_default_main(){
 	./mlx-test &
 	PID="$!"
+	log_info "./mlx-test running in background, pid:" $PID
 	
 	i=30		# wait 30s maximum
 	while [ $i -gt 0 ]; do
