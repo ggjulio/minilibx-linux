@@ -1,7 +1,5 @@
 #!/bin/env sh
 
-###  Automated tests for ci
-
 set -e
 
 BOLD="\e[1m"
@@ -25,7 +23,7 @@ log_error(){
 PID=""
 
 # to properly kill child process executed in background on exit
-exit_handler() {
+at_exit() {
 	[ $? -eq 0 ] && log_info "Seem all went well" && exit 0
 	# Code for non-zero exit:
 	if ! kill -s TERM "$PID" || ! wait "$PID" ; then
@@ -38,16 +36,16 @@ int_handler(){
 	kill -s TERM "$PID"
 	wait
 	log_info "Tests abort"
-	exit 0
+	exit 1
 }
 
-# look at test/main.c and run binary test/mlx-test to understand what this function does
+# look at test/main.c and run ./mlx-test to understand what this function does
 test_default_main(){
 	./mlx-test &
 	PID="$!"
 	log_info "./mlx-test running in background, pid:" $PID
 	
-	i=30		# wait 30s maximum
+	i=30		# waiting 30s mlx-test to be ready for inputs.
 	while [ $i -gt 0 ]; do
 		# ready="$(graal command? || true)"
 		# if [ "$ready" ]; then
@@ -75,17 +73,17 @@ test_default_main(){
 
 }
 
-# add more and proper (unit)tests ? (a test function must exit 1 if it fail)
-# test/ hierarchy files should probably be refactorised if more main tests are added
-# and this script too need some refactorisation to be extensible.
-# But for now it is better than nothing
 main(){
-	trap int_handler INT
-	trap exit_handler EXIT
-
 	log_info "DISPLAY=$DISPLAY"
 
+	trap at_exit		EXIT
+	trap int_handler	INT
+
 	test_default_main
+	# add more and proper (unit)tests ? (a test function must exit 1 if it fail)
+	# test/ hierarchy files should probably be refactorised if more main tests are added
+	# and this script too need some refactorisation to be extensible.
+	# But for now it is better than nothing
 }
 
 main "$@"

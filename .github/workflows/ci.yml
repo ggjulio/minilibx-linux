@@ -10,8 +10,7 @@ jobs:
   build:
 
     runs-on: ${{ matrix.os }}
-    # env:
-    #   DISPLAY: ':99'
+
     strategy:
       fail-fast: false
       matrix:
@@ -33,13 +32,13 @@ jobs:
         echo "DISPLAY=$DISPLAY"
         cd test/
         xvfb-run ./run_tests.sh
-    - name: Check leaks from binary "test/mlx-test"
-      run: |
-        echo "Info: Test will pass even if some still reachable are reported. It is not considered as a leak.\
-        \n Valgrind will return 0 on thoses report (and is good since the mlx don't have a way to release his allocated memory)"
-        cd test
-        ls
-        xvfb-run valgrind --leak-check=full --error-exitcode=1 ./mlx-test
+    # - name: Check leaks from binary "test/mlx-test"
+    #   run: |
+    #     echo "Info: Test will pass even if some still reachable are reported. It is not considered as a leak.\
+    #     \n Valgrind will return 0 on thoses report (and is good since the mlx don't have a way to release his allocated memory)"
+    #     cd test
+    #     ls
+    #     xvfb-run valgrind --leak-check=full --error-exitcode=1 ./run_tests.sh
   
 
 
