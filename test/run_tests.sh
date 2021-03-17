@@ -78,6 +78,7 @@ test_default_main(){
 }
 
 main(){
+	log_info "#################### " $DISPLAY
 	trap int_handler INT
 	trap exit_handler EXIT
 

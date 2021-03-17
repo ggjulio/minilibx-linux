@@ -10,8 +10,8 @@ jobs:
   build:
 
     runs-on: ${{ matrix.os }}
-    env:
-      DISPLAY: ':99'
+    # env:
+    #   DISPLAY: ':99'
     strategy:
       fail-fast: false
       matrix:
@@ -34,10 +34,14 @@ jobs:
     - name: Setup headless environment
       run: |
         sudo apt-get install xvfb
-        xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
-      # xvfb-run --auto-servernum npm test
+        export DISPLAY='99.0'
+        xvfb-maybe electron-mocha ./test/*.js
+
+    # xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
+    # xvfb-run --auto-servernum npm test
     - name: Run ./run_tests.sh
       run: |
+        echo ------------------------- $DISPLAY
         cd test/
         sh run_tests.sh
     # - name: Run ./run_tests.sh + check leaks
