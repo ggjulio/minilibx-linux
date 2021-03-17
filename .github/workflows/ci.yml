@@ -20,8 +20,8 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Install XQuartz on macOS
-        if: runner.os == 'macOS'
-        run: brew cask install xquartz
+      if: runner.os == 'macOS'
+      run: brew cask install xquartz
     - name: Install mlx dependencies
       run: |
         set -x
