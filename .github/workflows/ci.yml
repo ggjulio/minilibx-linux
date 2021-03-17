@@ -38,7 +38,7 @@ jobs:
         sudo apt install valgrind
         echo "Info: Test will pass even if some still reachable are reported. It is not considered as a leak.\
         \n Valgrind will return 0 on thoses report (and is good since the mlx don't have a way to release his allocated memory)"
-        xvfb-run valgrind --leak-check=full --error-exitcode=1 ./mlx-test
+        xvfb-run valgrind --leak-check=full --error-exitcode=1 test/mlx-test
   
 
 
