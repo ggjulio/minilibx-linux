@@ -20,19 +20,25 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Install mlx dependencies
-      if: ${{ matrix.os == 'ubuntu-latest' }}  
-      run: sudo apt-get install gcc make xorg libxext-dev libbsd-dev
+      run: |
+        if [ "$RUNNER_OS" == "Linux" ]; then
+            sudo apt-get install gcc make xorg libxext-dev libbsd-dev
+        elif [ "$RUNNER_OS" == "macOS" ]; then
+            brew install --cask xquartz
+        elif [ "$RUNNER_OS" == "Windows" ];
+              echo "$RUNNER_OS not supported"
+              exit 1
+        fi
     - name: Setup x11 headless testing environment
-      if: ${{ matrix.os == 'ubuntu-latest' }}  
-      run: sudo apt-get install xvfb xdotool valgrind
-
-    - name: Install mlx dependencies
-      if: ${{ matrix.os == 'macos-latest' }}  
-      run: brew cask install xquartz
-    - name: Setup x11 headless testing environment
-      if: ${{ matrix.os == 'macos-latest' }}  
-      run: brew install xvfb xdotool valgrind
-
+      run: |
+        if [ "$RUNNER_OS" == "Linux" ]; then
+            sudo apt-get install xvfb xdotool valgrind
+        elif [ "$RUNNER_OS" == "macOS" ]; then
+            brew install xvfb xdotool valgrind
+        elif [ "$RUNNER_OS" == "Windows" ];
+              echo "$RUNNER_OS not supported"
+              exit 1
+        fi
 
     - name: Run ./configure
       run: ./configure
