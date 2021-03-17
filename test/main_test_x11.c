@@ -18,7 +18,7 @@ int main ()
 	printf("start poc\n");
     if ((display = XOpenDisplay (display_name)) == NULL) {
 		fprintf (stderr, "Can't open Display\n");
-		exit (1);
+		exit (2);
     }
 
     gc = DefaultGC (display, screen);

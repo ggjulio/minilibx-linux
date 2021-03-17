@@ -46,7 +46,8 @@ jobs:
         cd test/
         Xvfb :99 -screen 0 1024x768x24 > /dev/null &
         sleep 20
-        clang  main_test_x11.c -lXext -lX11 -lm &&  ./a.out
+        clang  main_test_x11.c -lXext -lX11 -lm
+        xvfb-run  ./a.out
       # sh run_tests.sh
       # xvfb-run --auto-servernum ./run_tests.sh
     # - name: Run ./run_tests.sh + check leaks
