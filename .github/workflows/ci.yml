@@ -41,11 +41,13 @@ jobs:
     # xvfb-run --auto-servernum npm test
     - name: Run ./run_tests.sh
       run: |
+        set -ex
         echo ------------------------- $DISPLAY
         cd test/
-        Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
-        sh run_tests.sh
-        xvfb-run --auto-servernum ./run_tests.sh
+        Xvfb :99 -screen 0 1024x768x24 > /dev/null &
+        sleep 20
+      # sh run_tests.sh
+      # xvfb-run --auto-servernum ./run_tests.sh
     # - name: Run ./run_tests.sh + check leaks
     #   run: |
     #     echo "Info: still reachable report is not considered as a leak.\n   Thus, valgrind will not exit(1) (and it is good in our case)"
