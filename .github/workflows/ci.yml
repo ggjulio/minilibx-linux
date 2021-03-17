@@ -38,15 +38,15 @@ jobs:
         # Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
     # xvfb-maybe electron-mocha ./test/*.js
     # xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
+      # Xvfb :99 -screen 0 1024x768x24 > /dev/null &
     # xvfb-run --auto-servernum npm test
     - name: Run ./run_tests.sh
       run: |
         set -ex
         echo ------------------------- $DISPLAY
         cd test/
-        Xvfb :99 -screen 0 1024x768x24 > /dev/null &
-        sleep 20
         clang  main_test_x11.c -lXext -lX11 -lm
+        sudo apt-get install xvfb
         xvfb-run  ./a.out
       # sh run_tests.sh
       # xvfb-run --auto-servernum ./run_tests.sh
