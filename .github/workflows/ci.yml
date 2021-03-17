@@ -19,11 +19,12 @@ jobs:
     timeout-minutes: 15
     steps:
     - uses: actions/checkout@v2
-    - name: Install XQuartz on macOS
-        if: runner.os == 'macOS'
-        run: brew cask install xquartz
+    # - name: Install XQuartz on macOS
+    #     if: runner.os == 'macOS'
+    #     run: brew cask install xquartz
     - name: Install mlx dependencies
       run: |
+        set -x
         if [ "$RUNNER_OS" == "Linux" ]; then
             sudo apt-get install gcc make xorg libxext-dev libbsd-dev
         elif [ "$RUNNER_OS" == "macOS" ]; then
@@ -34,6 +35,7 @@ jobs:
         fi
     - name: Setup x11 headless testing environment
       run: |
+        set -x
         if [ "$RUNNER_OS" == "Linux" ]; then
             sudo apt-get install xvfb xdotool valgrind
         elif [ "$RUNNER_OS" == "macOS" ]; then
