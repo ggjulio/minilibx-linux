@@ -31,19 +31,21 @@ jobs:
     #   uses: GabrielBB/xvfb-action@v1
     #   with:
     #     run: npm test
-    - name: Setup headless environment
-      run: |
-        sudo apt-get install xvfb
-        export DISPLAY='99.0'
-        xvfb-maybe electron-mocha ./test/*.js
-
+    # - name: Setup headless environment
+    #   run: |
+        # sudo apt-get install xvfb
+        # export DISPLAY='99.0'
+        # Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
+    # xvfb-maybe electron-mocha ./test/*.js
     # xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
     # xvfb-run --auto-servernum npm test
     - name: Run ./run_tests.sh
       run: |
         echo ------------------------- $DISPLAY
         cd test/
+        Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
         sh run_tests.sh
+        xvfb-run --auto-servernum ./run_tests.sh
     # - name: Run ./run_tests.sh + check leaks
     #   run: |
     #     echo "Info: still reachable report is not considered as a leak.\n   Thus, valgrind will not exit(1) (and it is good in our case)"
