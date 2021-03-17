@@ -90,7 +90,7 @@ parse_args(){
 			exit 0;;
 		"") return;;
 		*)
-			log_error "unknown command \"$1\"\nRun \"./configure --help\" for usage."  >&2
+			log_error "unknown command \"$1\"\nRun \"./configure --help\" for usage."
 			exit 1;;
 	esac
 }
@@ -100,7 +100,7 @@ main(){
 
 	parse_args "$@"
 	if [ -z "$xlib_inc" ]; then
-		log_info "Can't find a suitable X11 include directory." >&2
+		log_error "Can't find a suitable X11 include directory."
 		exit 1
 	fi
 	log_info "Found X11 include path directory: $xlib_inc"
