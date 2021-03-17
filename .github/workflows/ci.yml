@@ -23,7 +23,7 @@ jobs:
     - name: Install mlx dependencies
       run: |
         sudo apt-get install gcc make xorg libxext-dev libbsd-dev
-    - name: Setup proper x11 headless environmentte inputs (command-line X11 automation tool)
+    - name: Setup proper x11 headless environment
       run: |
         sudo apt-get install xvfb xdotool
     - name: Run ./configure
@@ -33,10 +33,11 @@ jobs:
         echo "DISPLAY=$DISPLAY"
         cd test/
         xvfb-run ./run_tests.sh
-    # - name: Run ./run_tests.sh + check leaks
-    #   run: |
-    #     echo "Info: still reachable report is not considered as a leak.\n   Thus, valgrind will not exit(1) (and it is good in our case)"
-    #     valgrind --leak-check=full --error-exitcode=1 ./mlx-test
+    - name: Check leaks from binary "test/mlx-test"
+      run: |
+        echo "Info: Test will pass even if some still reachable are reported. It is not considered as a leak.\
+        \n Valgrind will return 0 on thoses report (and is good since the mlx don't have a way to release his allocated memory)"
+        xvfb-run valgrind --leak-check=full --error-exitcode=1 ./mlx-test
   
 
 

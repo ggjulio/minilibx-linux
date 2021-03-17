@@ -26,7 +26,7 @@ PID=""
 
 # to properly kill child process executed in background on exit
 exit_handler() {
-	[ $? -eq 0 ] && log_info "Sucess" && exit 0
+	[ $? -eq 0 ] && log_info "Seem all went ok" && exit 0
 	# Code for non-zero exit:
 	if ! kill -s TERM "$PID" || ! wait "$PID" ; then
 		log_error "Something went wrong. Failed to kill pid" "$PID"
@@ -41,9 +41,7 @@ int_handler(){
 	exit 0
 }
 
-
-
-# look at test/main.c and run test/mlx-test to understand what this function does
+# look at test/main.c and run binary test/mlx-test to understand what this function does
 test_default_main(){
 	./mlx-test &
 	PID="$!"
@@ -77,14 +75,17 @@ test_default_main(){
 
 }
 
+# add more and proper (unit)tests ? (a test function must exit 1 if it fail)
+# test/ hierarchy files should probably be refactorised if more main tests are added
+# and this script too need some refactorisation to be extensible.
+# But for now it is better than nothing
 main(){
-	log_info "#################### " $DISPLAY
 	trap int_handler INT
 	trap exit_handler EXIT
 
+	log_info "DISPLAY=$DISPLAY"
+
 	test_default_main
-	# more and proper (unit)tests ? (a test function must exit 1 if it fail)
-	# test/ hierarchy should probably be refactorised if more main tests are added
-	# But for now it is ok, and better than nothing
 }
+
 main "$@"
