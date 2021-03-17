@@ -27,14 +27,14 @@ jobs:
       run: sudo apt-get install xdotool
     - name: Run ./configure
       run: ./configure
-    - name: Run headless test
-      uses: GabrielBB/xvfb-action@v1
-      with:
-        run: npm test
-    # - name: Setup headless environment
-    #   run: |
-    #     # sudo apt-get install xvfb
-    #     Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
+    # - name: Run headless test
+    #   uses: GabrielBB/xvfb-action@v1
+    #   with:
+    #     run: npm test
+    - name: Setup headless environment
+      run: |
+        sudo apt-get install xvfb
+        xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
       # xvfb-run --auto-servernum npm test
     - name: Run ./run_tests.sh
       run: |
