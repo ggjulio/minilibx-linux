@@ -23,9 +23,9 @@ jobs:
     - name: Install mlx dependencies
       run: |
         sudo apt-get install gcc make xorg libxext-dev libbsd-dev
-    - name: Setup x11 headless environment
+    - name: Setup x11 headless testing environment
       run: |
-        sudo apt-get install xvfb xdotool
+        sudo apt-get install xvfb xdotool valgrind
     - name: Run ./configure
       run: ./configure
     - name: Run ./run_tests.sh
@@ -35,10 +35,11 @@ jobs:
         xvfb-run ./run_tests.sh
     - name: Check leaks from binary "test/mlx-test"
       run: |
-        sudo apt install valgrind
         echo "Info: Test will pass even if some still reachable are reported. It is not considered as a leak.\
         \n Valgrind will return 0 on thoses report (and is good since the mlx don't have a way to release his allocated memory)"
-        xvfb-run valgrind --leak-check=full --error-exitcode=1 test/mlx-test
+        cd test
+        ls
+        xvfb-run valgrind --leak-check=full --error-exitcode=1 ./mlx-test
   
 
 

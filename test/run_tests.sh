@@ -26,7 +26,7 @@ PID=""
 
 # to properly kill child process executed in background on exit
 exit_handler() {
-	[ $? -eq 0 ] && log_info "Seem all went ok" && exit 0
+	[ $? -eq 0 ] && log_info "Seem all went well" && exit 0
 	# Code for non-zero exit:
 	if ! kill -s TERM "$PID" || ! wait "$PID" ; then
 		log_error "Something went wrong. Failed to kill pid" "$PID"
