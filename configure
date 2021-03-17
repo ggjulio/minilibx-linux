@@ -2,8 +2,21 @@
 
 set -e
 
+BOLD="\e[1m"
+RESET="\e[0m"
+LIGHT_RED="\e[91m"
+LIGHT_GREEN="\e[92m"
+LIGHT_CYAN="\e[96m"
+
+logging(){
+	local type=$1; shift
+	printf "${LIGHT_CYAN}${BOLD}configure${RESET} [%b] : %b\n" "$type" "$*"
+}
 log_info(){
-	printf "configure: %b\n" "$@"
+	logging "${LIGHT_GREEN}info${RESET}" "$@"
+}
+log_error(){
+	logging "${LIGHT_RED}error${RESET}" "$@" >&2
 }
 
 # find and print x11 header path
@@ -61,10 +74,10 @@ EOF
 }
 
 clean(){
-	log_info 'Execute "make clean" from file "makefile.gen"'
-	make -f Makefile.gen clean > /dev/null
-	log_info 'Execute "make clean" from file "test/makefile.gen"'
-	(cd test ; make -f Makefile.gen clean)  > /dev/null
+	log_info 'Execute "make clean" from "makefile.gen"'
+	make -f Makefile.gen clean 			
+	log_info 'Execute "make clean" from "test/makefile.gen"'
+	make -f Makefile.gen -C test/ --no-print-directory clean
 }
 
 parse_args(){
@@ -77,7 +90,7 @@ parse_args(){
 			exit 0;;
 		"") return;;
 		*)
-			log_info "unknown command \"$1\"\nRun \"./configure --help\" for usage."  >&2
+			log_error "unknown command \"$1\"\nRun \"./configure --help\" for usage."  >&2
 			exit 1;;
 	esac
 }

@@ -2,7 +2,7 @@
 
 ###  Automated tests for ci
 
-set -ex
+set -e
 
 BOLD="\e[1m"
 RESET="\e[0m"

@@ -17,39 +17,22 @@ jobs:
       matrix:
         os: [ubuntu-latest, macos-11.0, macos-10.15]
 
-    # timeout-minutes: 5
+    timeout-minutes: 15
     steps:
     - uses: actions/checkout@v2
     - name: Install mlx dependencies
       run: |
         sudo apt-get install gcc make xorg libxext-dev libbsd-dev
-    - name: Install xdotool to simulate inputs (command-line X11 automation tool)
-      run: sudo apt-get install xdotool
+    - name: Setup proper x11 headless environmentte inputs (command-line X11 automation tool)
+      run: |
+        sudo apt-get install xvfb xdotool
     - name: Run ./configure
       run: ./configure
-    # - name: Run headless test
-    #   uses: GabrielBB/xvfb-action@v1
-    #   with:
-    #     run: npm test
-    # - name: Setup headless environment
-    #   run: |
-        # sudo apt-get install xvfb
-        # export DISPLAY='99.0'
-        # Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
-    # xvfb-maybe electron-mocha ./test/*.js
-    # xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
-      # Xvfb :99 -screen 0 1024x768x24 > /dev/null &
-    # xvfb-run --auto-servernum npm test
     - name: Run ./run_tests.sh
       run: |
-        set -ex
-        echo ------------------------- $DISPLAY
+        echo "DISPLAY=$DISPLAY"
         cd test/
-        clang  main_test_x11.c -lXext -lX11 -lm
-        sudo apt-get install xvfb
-        xvfb-run  ./a.out
-      # sh run_tests.sh
-      # xvfb-run --auto-servernum ./run_tests.sh
+        xvfb-run ./run_tests.sh
     # - name: Run ./run_tests.sh + check leaks
     #   run: |
     #     echo "Info: still reachable report is not considered as a leak.\n   Thus, valgrind will not exit(1) (and it is good in our case)"
