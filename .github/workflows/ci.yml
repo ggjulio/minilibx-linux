@@ -19,9 +19,6 @@ jobs:
     timeout-minutes: 15
     steps:
     - uses: actions/checkout@v2
-    # - name: Install XQuartz on macOS
-    #   if: runner.os == 'macOS'
-    #   run: brew install xquartz
     - name: Install mlx dependencies
       run: |
         set -x
@@ -29,8 +26,6 @@ jobs:
             sudo apt-get install gcc make xorg libxext-dev libbsd-dev
         elif [ "$RUNNER_OS" == "macOS" ]; then
             brew install xquartz
-            which xvfb | true
-            which xvfb | true
         elif [ "$RUNNER_OS" == "Windows" ]; then
               echo "$RUNNER_OS not supported"
               exit 1
@@ -41,12 +36,11 @@ jobs:
         if [ "$RUNNER_OS" == "Linux" ]; then
             sudo apt-get install xvfb xdotool valgrind
         elif [ "$RUNNER_OS" == "macOS" ]; then
-            brew install xdotool || true
-            brew install valgrind || true
-            brew install xvfb || true
-            brew install Xvfb || true
+            brew install xdotool valgrind
             ls /usr/X11/bin
             echo $PATH
+            which Xfake || true
+            which Xvfb || true
         elif [ "$RUNNER_OS" == "Windows" ]; then
               echo "$RUNNER_OS not supported"
               exit 1
@@ -58,7 +52,14 @@ jobs:
       run: |
         echo "DISPLAY=$DISPLAY"
         cd test/
-        xvfb-run ./run_tests.sh
+        if [ "$RUNNER_OS" == "Linux" ]; then
+          xvfb-run ./run_tests.sh
+        elif [ "$RUNNER_OS" == "macOS" ]; then
+          xvfb-run ./run_tests.sh
+        elif [ "$RUNNER_OS" == "Windows" ]; then
+              echo "$RUNNER_OS not supported"
+              exit 1
+        fi
     # - name: Check leaks from binary "test/mlx-test"
     #   run: |
     #     echo "Info: Test will pass even if some still reachable are reported. It is not considered as a leak.\
