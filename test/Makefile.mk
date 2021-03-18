@@ -12,7 +12,7 @@ NAME= mlx-test
 SRC = main.c
 OBJ = $(SRC:%.c=%.o)
 
-LFLAGS = -L.. -lmlx -L$(INCLIB) -lXext -lX11 -lm
+LFLAGS = -L.. -lmlx -L$(INCLIB) -lXext -lm -lX11 
 
 ifeq ($(UNAME), Darwin)
 	# mac
@@ -24,6 +24,7 @@ endif
 all: $(NAME)
 
 $(NAME): $(OBJ)
+	echo $(UNAME)
 	$(CC) -o $(NAME) $(OBJ) $(LFLAGS)
 
 clean:
