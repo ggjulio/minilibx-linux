@@ -39,28 +39,20 @@ jobs:
             sudo apt-get install xvfb xdotool
         elif [ "$RUNNER_OS" == "macOS" ]; then
             brew install xdotool
-            startx &
-            MAX=60
-            CT=0
-            while ! xdpyinfo >/dev/null 2>&1; do
-                sleep 1
-                CT=$(( CT + 1 ))
-                echo "countdown: " $CT 
-                if [ "$CT" -ge "$MAX" ]; then
-                    echo "FATAL: $0: Gave up waiting for X server $DISPLAY"
-                    exit 11
-                fi
-            done
+            Xvfb $DISPLAY -screen 0 1280x1024x24 &
+            ps -a  
+
         else
               echo "$RUNNER_OS not supported"
               exit 1
         fi
-        Xvfb $DISPLAY -screen 0 1280x1024x24 &
 
     - name: Run ./configure
       run: ./configure
     - name: Run ./run_tests.sh
       run: |
+        set -x  
+        ps -a
         cd test/
         ./run_tests.sh
     - name: Norminette, just for fun
