@@ -29,6 +29,8 @@ jobs:
             sudo apt-get install gcc make xorg libxext-dev libbsd-dev
         elif [ "$RUNNER_OS" == "macOS" ]; then
             brew install xquartz
+            which xvfb | true
+            which xvfb | true
         elif [ "$RUNNER_OS" == "Windows" ]; then
               echo "$RUNNER_OS not supported"
               exit 1
@@ -39,7 +41,12 @@ jobs:
         if [ "$RUNNER_OS" == "Linux" ]; then
             sudo apt-get install xvfb xdotool valgrind
         elif [ "$RUNNER_OS" == "macOS" ]; then
-            brew install xvfb xdotool valgrind
+            brew install xdotool || true
+            brew install valgrind || true
+            brew install xvfb || true
+            brew install Xvfb || true
+            ls /usr/X11/bin
+            echo $PATH
         elif [ "$RUNNER_OS" == "Windows" ]; then
               echo "$RUNNER_OS not supported"
               exit 1
