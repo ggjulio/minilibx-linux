@@ -28,7 +28,7 @@ jobs:
         elif [ "$RUNNER_OS" == "macOS" ]; then
             brew install xquartz
             echo "/usr/X11/bin" >> $GITHUB_PATH
-        elif [ "$RUNNER_OS" == "Windows" ]; then
+        else
             echo "$RUNNER_OS not supported"
             exit 1
         fi
@@ -39,7 +39,7 @@ jobs:
             sudo apt-get install xvfb xdotool
         elif [ "$RUNNER_OS" == "macOS" ]; then
             brew install xdotool
-        elif [ "$RUNNER_OS" == "Windows" ]; then
+        else
               echo "$RUNNER_OS not supported"
               exit 1
         fi
