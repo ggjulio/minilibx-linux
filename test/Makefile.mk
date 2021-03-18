@@ -1,5 +1,4 @@
 
-
 INC=%%%%
 
 INCLIB=$(INC)/../lib
@@ -14,6 +13,7 @@ OBJ = $(SRC:%.c=%.o)
 
 LFLAGS = -L.. -lmlx -L$(INCLIB) -lXext -lm -lX11 
 
+UNAME := $(shell uname)
 ifeq ($(UNAME), Darwin)
 	# mac
 else
@@ -26,6 +26,15 @@ all: $(NAME)
 $(NAME): $(OBJ)
 	echo $(UNAME)
 	$(CC) -o $(NAME) $(OBJ) $(LFLAGS)
+
+show:
+	@printf "UNAME		: $(UNAME)\n"
+	@printf "NAME  		: $(NAME)\n"
+	@printf "CC		: $(CC)\n"
+	@printf "CFLAGS		: $(CFLAGS)\n"
+	@printf "LFLAGS		: $(LFLAGS)\n"
+	@printf "SRC		:\n $(SRC)\n"
+	@printf "OBJ		:\n $(OBJ)\n"
 
 clean:
 	rm -f $(NAME) $(OBJ) *~ core *.core
