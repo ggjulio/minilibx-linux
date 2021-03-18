@@ -11,7 +11,7 @@ jobs:
 
     runs-on: ${{ matrix.os }}
     env:
-      DISPLAY: ":99"
+      DISPLAY: ":0"
     strategy:
       fail-fast: false
       matrix:
@@ -35,22 +35,20 @@ jobs:
       run: |
         set -x
         if [ "$RUNNER_OS" == "Linux" ]; then
-            sudo apt-get install xvfb xdotool valgrind
+            sudo apt-get install xvfb xdotool
         elif [ "$RUNNER_OS" == "macOS" ]; then
             brew install xdotool
-            brew install valgrind || true
             echo "/usr/X11/bin" >> $GITHUB_PATH
         elif [ "$RUNNER_OS" == "Windows" ]; then
               echo "$RUNNER_OS not supported"
               exit 1
         fi
-        Xvfb $DISPLAY -ac -screen 0 1280x1024x24 &
+        Xvfb $DISPLAY -screen 0 1280x1024x24 &
 
     - name: Run ./configure
       run: ./configure
     - name: Run ./run_tests.sh
       run: |
-        set -x
         cd test/
         ./run_tests.sh
     - name: Norminette, just for fun
