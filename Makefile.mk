@@ -54,8 +54,8 @@ show:
 	@printf "NAME_UNAME	: $(NAME_UNAME)\n"
 	@printf "CC		: $(CC)\n"
 	@printf "CFLAGS		: $(CFLAGS)\n"
-	@printf "SRC		:\n $(SRC)\n"
-	@printf "OBJ		:\n $(OBJ)\n"
+	@printf "SRC		:\n	$(SRC)\n"
+	@printf "OBJ		:\n	$(OBJ)\n"
 
 
 clean	:

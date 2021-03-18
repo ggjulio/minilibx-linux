@@ -11,7 +11,7 @@ NAME= mlx-test
 SRC = main.c
 OBJ = $(SRC:%.c=%.o)
 
-LFLAGS = -L.. -lmlx -L$(INCLIB) -lXext -lm -lX11 
+LFLAGS = -L.. -lmlx -L$(INCLIB) -lXext -lX11 -lm
 
 UNAME := $(shell uname)
 ifeq ($(UNAME), Darwin)
@@ -33,8 +33,8 @@ show:
 	@printf "CC		: $(CC)\n"
 	@printf "CFLAGS		: $(CFLAGS)\n"
 	@printf "LFLAGS		: $(LFLAGS)\n"
-	@printf "SRC		:\n $(SRC)\n"
-	@printf "OBJ		:\n $(OBJ)\n"
+	@printf "SRC		:\n	$(SRC)\n"
+	@printf "OBJ		:\n	$(OBJ)\n"
 
 clean:
 	rm -f $(NAME) $(OBJ) *~ core *.core

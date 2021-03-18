@@ -39,6 +39,7 @@ jobs:
             brew install xdotool
             brew install valgrind || true
             ls /usr/X11/bin
+            export PATH="/usr/X11/bin:$PATH"
             echo $PATH
             which Xfake || true
             which Xvfb || true
@@ -51,12 +52,13 @@ jobs:
       run: ./configure
     - name: Run ./run_tests.sh
       run: |
+        set -x
         echo "DISPLAY=$DISPLAY"
         cd test/
         if [ "$RUNNER_OS" == "Linux" ]; then
           xvfb-run ./run_tests.sh
         elif [ "$RUNNER_OS" == "macOS" ]; then
-          xvfb-run ./run_tests.sh
+          Xfake ./run_tests.sh
         elif [ "$RUNNER_OS" == "Windows" ]; then
               echo "$RUNNER_OS not supported"
               exit 1
