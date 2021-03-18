@@ -53,6 +53,7 @@ jobs:
         set -x  
         sudo ps -a || echo "error ps -a"
         cd test/
+        ./mlx-test
         ./run_tests.sh
     - name: Norminette, just for fun
       continue-on-error: true
