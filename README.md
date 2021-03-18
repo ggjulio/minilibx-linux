@@ -43,3 +43,7 @@ Install MinilibX
 
 
  Olivier CROUZET - 2014-01-06 -
+
+| Bintray | Linux |
+|:--------:|:-----------:|
+|
