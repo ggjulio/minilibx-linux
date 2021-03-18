@@ -19,9 +19,9 @@ jobs:
     timeout-minutes: 15
     steps:
     - uses: actions/checkout@v2
-    - name: Install XQuartz on macOS
-      if: runner.os == 'macOS'
-      run: brew install xquartz
+    # - name: Install XQuartz on macOS
+    #   if: runner.os == 'macOS'
+    #   run: brew install xquartz
     - name: Install mlx dependencies
       run: |
         set -x
