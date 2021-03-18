@@ -60,8 +60,6 @@ jobs:
         elif [ "$RUNNER_OS" == "macOS" ]; then
             export DISPLAY=":99"
             Xvfb $DISPLAY -screen 0 1024x768x16 &
-            echo "DISPLAY=$DISPLAY"
-            ls
             ./run_tests.sh
         elif [ "$RUNNER_OS" == "Windows" ]; then
               echo "$RUNNER_OS not supported"
