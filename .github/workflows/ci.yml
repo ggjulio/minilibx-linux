@@ -35,14 +35,18 @@ jobs:
     - name: Setup x11 headless testing environment
       run: |
         set -x
+        id
+        whoami
         if [ "$RUNNER_OS" == "Linux" ]; then
             sudo apt-get install xvfb xdotool
             Xvfb $DISPLAY -screen 0 1280x1024x24 &
         elif [ "$RUNNER_OS" == "macOS" ]; then
             brew install xdotool
+            which Xvfb
             sudo Xvfb $DISPLAY -screen 0 1280x1024x24 &
             sleep 5
-            sudo ps -a || echo "error ps -a"
+            xeyes &
+            ps -a || echo "error ps -a"
             
         else
               echo "$RUNNER_OS not supported"
