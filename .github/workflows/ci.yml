@@ -13,6 +13,7 @@ jobs:
 
     strategy:
       fail-fast: false
+      max-parallel: 2
       matrix:
         os: [ubuntu-latest, macos-latest]
 
@@ -60,11 +61,17 @@ jobs:
         elif [ "$RUNNER_OS" == "macOS" ]; then
             export DISPLAY=":99"
             Xvfb $DISPLAY -screen 0 1024x768x16 &
-            Xfake ./run_tests.sh
+            ./run_tests.sh
         elif [ "$RUNNER_OS" == "Windows" ]; then
               echo "$RUNNER_OS not supported"
               exit 1
         fi
+    - name: Norminette, just for fun
+      continue-on-error: true
+      run: |
+        pip3 install Norminette
+        norminette *.c *.h
+
     # - name: Check leaks from binary "test/mlx-test"
     #   run: |
     #     echo "Info: Test will pass even if some still reachable are reported. It is not considered as a leak.\
