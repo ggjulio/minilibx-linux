@@ -10,10 +10,10 @@ jobs:
   build:
 
     runs-on: ${{ matrix.os }}
-
+    env:
+      DISPLAY: ":99"
     strategy:
       fail-fast: false
-      max-parallel: 2
       matrix:
         os: [ubuntu-latest, macos-latest]
 
@@ -39,33 +39,27 @@ jobs:
         elif [ "$RUNNER_OS" == "macOS" ]; then
             brew install xdotool
             brew install valgrind || true
-            ls /usr/X11/bin
             echo "/usr/X11/bin" >> $GITHUB_PATH
-            echo $PATH
-            which Xfake || true
-            which Xvfb || true
         elif [ "$RUNNER_OS" == "Windows" ]; then
               echo "$RUNNER_OS not supported"
               exit 1
         fi
+        Xvfb :99 -ac -screen 0 1280x1024x24 &
 
     - name: Run ./configure
       run: ./configure
     - name: Run ./run_tests.sh
       run: |
         set -x
-        echo "DISPLAY=$DISPLAY"
+        echo "DISPLAY=$DISPLAY" 
         cd test/
         if [ "$RUNNER_OS" == "Linux" ]; then
-          xvfb-run ./run_tests.sh
+            ./run_tests.sh
         elif [ "$RUNNER_OS" == "macOS" ]; then
-            export DISPLAY=":99"
-            Xvfb $DISPLAY -screen 0 1024x768x16 -nolisten tcp &
-            sleep 4
             ./run_tests.sh
         elif [ "$RUNNER_OS" == "Windows" ]; then
-              echo "$RUNNER_OS not supported"
-              exit 1
+            echo "$RUNNER_OS not supported"
+            exit 1
         fi
     - name: Norminette, just for fun
       continue-on-error: true
