@@ -1,6 +1,6 @@
 #!/bin/env sh
 
-set -e
+set -ex
 
 BOLD="\e[1m"
 RESET="\e[0m"
