@@ -52,7 +52,7 @@ jobs:
     - name: Run ./run_tests.sh
       run: |
         set -x  
-        ps -a
+        ps -a || echo "error ps -a"
         cd test/
         ./run_tests.sh
     - name: Norminette, just for fun
