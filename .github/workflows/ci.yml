@@ -42,8 +42,8 @@ jobs:
             brew install xdotool
             sudo Xvfb $DISPLAY -screen 0 1280x1024x24 &
             sleep 5
-            ps -a
-
+            sudo ps -a || echo "error ps -a"
+            
         else
               echo "$RUNNER_OS not supported"
               exit 1
@@ -54,7 +54,7 @@ jobs:
     - name: Run ./run_tests.sh
       run: |
         set -x  
-        ps -a || echo "error ps -a"
+        sudo ps -a || echo "error ps -a"
         cd test/
         ./run_tests.sh
     - name: Norminette, just for fun
