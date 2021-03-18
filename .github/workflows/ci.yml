@@ -39,8 +39,11 @@ jobs:
             sudo apt-get install xvfb xdotool
         elif [ "$RUNNER_OS" == "macOS" ]; then
             brew install xdotool
+            rm /tmp/.X11-unix/X1
+            rm /tmp/.X1
             Xvfb $DISPLAY -screen 0 1280x1024x24 &
-            ps -a  
+            sleep 5
+            ps -a
 
         else
               echo "$RUNNER_OS not supported"
