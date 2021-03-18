@@ -40,6 +40,17 @@ jobs:
         elif [ "$RUNNER_OS" == "macOS" ]; then
             brew install xdotool
             startx &
+            MAX=60
+            CT=0
+            while ! xdpyinfo >/dev/null 2>&1; do
+                sleep 1
+                CT=$(( CT + 1 ))
+                echo "countdown: " $CT 
+                if [ "$CT" -ge "$MAX" ]; then
+                    echo "FATAL: $0: Gave up waiting for X server $DISPLAY"
+                    exit 11
+                fi
+            done
         else
               echo "$RUNNER_OS not supported"
               exit 1
