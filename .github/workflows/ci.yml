@@ -60,7 +60,7 @@ jobs:
           xvfb-run ./run_tests.sh
         elif [ "$RUNNER_OS" == "macOS" ]; then
             export DISPLAY=":99"
-            Xvfb $DISPLAY -screen 0 1024x768x16 &
+            Xvfb $DISPLAY -screen 0 1024x768x16 -nolisten tcp &
             sleep 4
             ./run_tests.sh
         elif [ "$RUNNER_OS" == "Windows" ]; then
@@ -68,7 +68,6 @@ jobs:
               exit 1
         fi
     - name: Norminette, just for fun
-
       continue-on-error: true
       run: |
         pip3 install Norminette
