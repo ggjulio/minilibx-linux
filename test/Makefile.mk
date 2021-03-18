@@ -17,7 +17,7 @@ UNAME := $(shell uname)
 ifeq ($(UNAME), Darwin)
 	# mac
 else
-	#Linus and others...
+	#Linux and others...
 	LFLAGS += -lbsd
 endif
 
