@@ -39,6 +39,7 @@ jobs:
             sudo apt-get install xvfb xdotool
         elif [ "$RUNNER_OS" == "macOS" ]; then
             brew install xdotool
+            startx &
         else
               echo "$RUNNER_OS not supported"
               exit 1
