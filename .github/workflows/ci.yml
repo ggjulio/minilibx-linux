@@ -1,4 +1,4 @@
-name: C/C++ CI
+name: Minilibx CI
 
 on:
   push:
@@ -16,7 +16,7 @@ jobs:
       matrix:
         os: [ubuntu-latest, macos-latest]
 
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
     - uses: actions/checkout@v2
     - name: Install mlx dependencies
@@ -27,8 +27,8 @@ jobs:
         elif [ "$RUNNER_OS" == "macOS" ]; then
             brew install xquartz
         elif [ "$RUNNER_OS" == "Windows" ]; then
-              echo "$RUNNER_OS not supported"
-              exit 1
+            echo "$RUNNER_OS not supported"
+            exit 1
         fi
     - name: Setup x11 headless testing environment
       run: |
@@ -39,7 +39,7 @@ jobs:
             brew install xdotool
             brew install valgrind || true
             ls /usr/X11/bin
-            export PATH="/usr/X11/bin:$PATH"
+            echo "/usr/X11/bin" >> $GITHUB_PATH
             echo $PATH
             which Xfake || true
             which Xvfb || true
@@ -59,10 +59,10 @@ jobs:
           xvfb-run ./run_tests.sh
         elif [ "$RUNNER_OS" == "macOS" ]; then
             export DISPLAY=":99"
-            echo $PATH
-            /usr/X11/bin/Xvfb $DISPLAY -screen 0 1024x768x16 &
+            Xvfb $DISPLAY -screen 0 1024x768x16 &
             echo "DISPLAY=$DISPLAY"
-          ./run_tests.sh
+            ls
+            ./run_tests.sh
         elif [ "$RUNNER_OS" == "Windows" ]; then
               echo "$RUNNER_OS not supported"
               exit 1
