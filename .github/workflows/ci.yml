@@ -1,4 +1,4 @@
-name: Minilibx CI
+name: Build
 
 on:
   push:
