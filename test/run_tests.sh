@@ -41,7 +41,6 @@ int_handler(){
 
 # look at test/main.c and run ./mlx-test to understand what this function does
 test_default_main(){
-	set -x
 	./mlx-test &
 	PID="$!"
 	log_info "./mlx-test running in background, pid:" $PID

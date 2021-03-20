@@ -2,6 +2,9 @@
 Makefile.gen
 /test/mlx-test
 
+## editors
+.vscode/
+
 ### template from 
 # Prerequisites
 *.d
