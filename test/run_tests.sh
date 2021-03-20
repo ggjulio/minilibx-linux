@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# This script simulate user inputs for the CI
+# Feel free to improve or replace this very basic script.
+
 set -e
 
 BOLD="\e[1m"
@@ -20,19 +23,21 @@ log_error(){
 	exit 1
 }
 
+
 PID=""
 
 # to properly kill child process executed in background on exit
 at_exit() {
-	[ $? -eq 0 ] && log_info "Seem all went well" && exit 0
+	status=$?
+	[ $status -eq 0 ] && log_info "Seem all went well" && exit 0
 	# Code for non-zero exit:
-	if ! kill -s TERM "$PID" || ! wait "$PID" ; then
-		log_error "Something went wrong. Failed to kill pid" "$PID"
+	if ! kill -s TERM "$PID" 2>/dev/null || ! wait "$PID" ; then
+		log_error "Pid [$PID] died with status $status " 
 	fi
-	log_error "Something went wrong. Pid $PID has been killed"
+	log_error "Something went wrong. Pid [$PID] has been killed. Status code $status"
 }
-# to properly quit ctrl+c
-int_handler(){
+# to properly quit from ctrl+c (SIGINT Signal)
+sigint_handler(){
 	kill -s TERM "$PID"
 	wait
 	log_info "Tests abort"
@@ -45,12 +50,11 @@ test_default_main(){
 	PID="$!"
 	log_info "./mlx-test running in background, pid:" $PID
 	
-	i=30		# waiting 30s mlx-test to be ready for inputs.
+	i=25		# waiting 25s mlx-test to be ready for inputs.
 	while [ $i -gt 0 ]; do
-		# ready="$(graal command? || true)"
-		# if [ "$ready" ]; then
-		# 	break
-		# fi
+		if ! ps -p $PID > /dev/null ; then
+			wait $PID 
+		fi
 		log_info "countdown" $i
 		sleep 1
 		i=$((i - 1))
@@ -70,20 +74,13 @@ test_default_main(){
 	log_info "Focus Win2: Pressing escape to stop program"
 	xdotool windowfocus $wid2
 	xdotool key Escape
-
 }
 
 main(){
-	log_info "DISPLAY=$DISPLAY"
-
 	trap at_exit		EXIT
-	trap int_handler	INT
+	trap sigint_handler	INT
 
 	test_default_main
-	# add more and proper (unit)tests ? (a test function must exit 1 if it fail)
-	# test/ hierarchy files should probably be refactorised if more main tests are added
-	# and this script too need some refactorisation to be extensible.
-	# But for now it is better than nothing
 }
 
 main "$@"
