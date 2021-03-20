@@ -15,7 +15,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        os: [ubuntu-latest] #, macos-latest]
+        # Didn't find a way to simulate inputs on Macos. libxdo seem to no longer work on macos.
 
     timeout-minutes: 20
     steps:
@@ -51,10 +52,7 @@ jobs:
       run: ./configure
     - name: Run ./run_tests.sh
       run: |
-        set -x  
-        sudo ps -a || echo "error ps -a"
         cd test/
-        ./mlx-test
         ./run_tests.sh
     - name: Norminette, just for fun
       continue-on-error: true
