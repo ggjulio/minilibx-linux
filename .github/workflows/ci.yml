@@ -51,7 +51,7 @@ jobs:
     - name: Run ./configure
       run: ./configure
     - name: make check
-      run: make -f Makefile.gen check 
+      run: ./test/run_tests.sh
     - name: Check leaks from binary "test/mlx-test"
       run: |
         cd test
