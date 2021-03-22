@@ -51,7 +51,7 @@ jobs:
     - name: Run ./configure
       run: ./configure
     - name: make check
-      if: matrix.os == "macos"
+      if: matrix.os == "macOS"
       continue-on-error: true
       run: make -f Makefile.gen check
     - name: Check leaks from binary "test/mlx-test"
