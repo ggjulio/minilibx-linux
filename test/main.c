@@ -94,7 +94,7 @@ int	main()
   int	a;
 
   void *dede = malloc(542);
-  dede = malloc(542);
+  dede = (void*)0;
 
   printf("MinilibX Test Program\n");
   a = 0x11223344;
@@ -123,12 +123,12 @@ int	main()
   printf(" => Colormap sans event ...");
   color_map_1(win1,WIN1_SX,WIN1_SY);
   printf("OK\n");
-  sleep(2);
+  sleep(1);
 
   printf(" => Clear Window ...");
   mlx_clear_window(mlx,win1);
   printf("OK\n");
-  sleep(2);
+  sleep(1);
 
   printf(" => Image1 ZPixmap %dx%d ...",IM1_SX,IM1_SY);
   if (!(im1 = mlx_new_image(mlx,IM1_SX,IM1_SY)))
@@ -147,12 +147,12 @@ int	main()
   printf(" => Put Image1 ...");
   mlx_put_image_to_window(mlx,win1,im1,20,20);
   printf("OK\n");
-  sleep(2);
+  sleep(1);
 
   printf(" => Destroy Image1 ... ");
   mlx_destroy_image(mlx, im1);
   printf("OK\n");
-  sleep(2);
+  sleep(1);
 
   printf(" => Image3 ZPixmap %dx%d ...",IM3_SX,IM3_SY);
   if (!(im3 = mlx_new_image(mlx,IM3_SX,IM3_SY)))
@@ -171,13 +171,13 @@ int	main()
   printf(" => Put Image3 ...");
   mlx_put_image_to_window(mlx,win1,im3,20,20);
   printf("OK\n");
-  sleep(2);
+  sleep(1);
 
   printf(" => String ...");
   mlx_string_put(mlx,win1,5,WIN1_SY/2,0xFF99FF,"String output");
   mlx_string_put(mlx,win1,15,WIN1_SY/2+20,0x00FFFF,"MinilibX test");
   printf("OK\n");
-  sleep(2);
+  sleep(1);
 
   printf(" => Xpm from file ...");
   if (!(im2 = mlx_xpm_file_to_image(mlx,"open.xpm",&xpm1_x,&xpm1_y)))
@@ -188,13 +188,13 @@ int	main()
   data2 = mlx_get_data_addr(im2,&bpp2,&sl2,&endian2);
   printf("OK (xpm %dx%d)(img bpp2: %d, sizeline2: %d endian: %d type: %d)\n",
 	 xpm1_x,xpm1_y,bpp2,sl2,endian2,((t_img *)im2)->type);
-  sleep(2);
+  sleep(1);
 
   printf(" => Put xpm ...");
   mlx_put_image_to_window(mlx,win1,im2,0,0);
   mlx_put_image_to_window(mlx,win1,im2,100,100);
   printf("OK\n");
-  sleep(2);
+  sleep(1);
 
   printf(" => 2nd window,");
   win2 = mlx_new_window(mlx,WIN1_SX,WIN1_SY,"Title2");
