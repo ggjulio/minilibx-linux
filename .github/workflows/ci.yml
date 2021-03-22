@@ -58,7 +58,7 @@ jobs:
         valgrind --leak-check=full --show-leak-kinds=all --log-file=output_valgrind --error-exitcode=42 ./mlx-test &
         PID=$!
         sleep 20
-        kill -TERM PID
+        kill -TERM $PID
         cat output_valgrind
         echo "Info: Still reachable doesn't matter. Valgrind will return success on thoses reports.
           \n   And it is fine, we searching for lost pointers. Valgrind will return exit code 42 if any block is lost."
