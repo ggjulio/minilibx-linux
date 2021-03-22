@@ -63,10 +63,11 @@ jobs:
       run: |
         cd test
         if [ "$RUNNER_OS" == "Linux" ]; then
-            valgrind --leak-check=full --show-leak-kinds=all --log-file=output_valgrind --error-exitcode=42 ./mlx-test &
+            valgrind --leak-check=full  --log-file=output_valgrind --error-exitcode=42 ./mlx-test &
             PID=$!
-            sleep 20
-            kill $PID && cat output_valgrind
+            sleep 35
+            kill -TERM $PID && ! wait $PID
+            cat output_valgrind
             echo "Info: Still reachable doesn't matter. Valgrind will return success on thoses reports.
                 And it is fine, we searching for lost pointers. Valgrind will return exit status 42 if any block is lost."
         elif [ "$RUNNER_OS" == "macOS" ]; then
