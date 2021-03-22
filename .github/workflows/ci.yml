@@ -63,17 +63,18 @@ jobs:
       run: |
         cd test
         if [ "$RUNNER_OS" == "Linux" ]; then
-            valgrind --leak-check=full  --log-file=output_valgrind --error-exitcode=42 ./mlx-test &
-            PID=$!
-            sleep 35
-            kill -TERM $PID && ! wait $PID
-            cat output_valgrind
             echo "Info: Still reachable doesn't matter. Valgrind will return success on thoses reports.
-                And it is fine, we searching for lost pointers. Valgrind will return exit status 42 if any block is lost."
+              It is fine, we searching for lost pointers. Valgrind will return exit status 42 if any block is lost."
+            valgrind --leak-check=full --show-leak-kinds=all --error-exitcode=42 ./mlx-test > /dev/null &
+            PID=$!
+            sleep 30
+            xdotool search --name Title3 windowfocus key Escape
+            xdotool search --name Title2 windowfocus key Escape
+            wait $PID
         elif [ "$RUNNER_OS" == "macOS" ]; then
             MallocStackLoggingNoCompact=1
             ./mlx-test &
-            sleep 20
+            sleep 30
             leaks mlx-test
             pkill mlx-test
         fi
