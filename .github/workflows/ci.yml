@@ -74,8 +74,8 @@ jobs:
             ls /Applications/Xcode.app/Contents/Developer/usr/lib | true
             ./mlx-test &
             sleep 20
-            leaks ./mlx-test
-            pkill ./mlx-test
+            leaks mlx-test
+            pkill mlx-test
         fi
  
     - name: Norminette, just for fun
