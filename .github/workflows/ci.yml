@@ -41,7 +41,7 @@ jobs:
             sudo apt-get install xvfb xdotool valgrind
             Xvfb $DISPLAY -screen 0 1280x1024x24 &
         elif [ "$RUNNER_OS" == "macOS" ]; then
-            brew install xdotool valgrind
+            brew install xdotool
             defaults write org.x.X11 enable_test_extensions -boolean true
             sudo Xvfb $DISPLAY -screen 0 1280x1024x24 &           
         else
@@ -61,7 +61,7 @@ jobs:
 
     - name: Check leaks from binary "test/mlx-test"
       run: |
-        cd test
+        cd tests
         valgrind --leak-check=full --show-leak-kinds=all --log-file=output_valgrind --error-exitcode=42 ./mlx-test &
         PID=$!
         sleep 20
