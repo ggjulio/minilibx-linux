@@ -1,7 +1,8 @@
 #!/bin/sh
 
-# This script simulate user inputs for the CI
-# Feel free to improve or replace this very basic script.
+# This very basic script simulate user inputs for the CI
+# Feel free to update, improve or remove it if proper 
+# intergration tests and/or unit tests are added.
 
 set -e
 
@@ -46,6 +47,7 @@ sigint_handler(){
 
 # look at test/main.c and run ./mlx-test to understand what this function does
 test_default_main(){
+	make -f Makefile.gen all
 	./mlx-test &
 	PID="$!"
 	log_info "./mlx-test running in background, pid:" $PID
@@ -77,6 +79,7 @@ test_default_main(){
 }
 
 main(){
+	cd $(dirname $0)
 	trap at_exit		EXIT
 	trap sigint_handler	INT
 
