@@ -46,8 +46,8 @@ $(NAME)	: $(OBJ)
 	ranlib $(NAME)
 	cp $(NAME) $(NAME_UNAME)
 
-check:
-	
+check: all
+	@test/run_tests.sh
 
 show:
 	@printf "NAME  		: $(NAME)\n"
@@ -57,6 +57,7 @@ show:
 	@printf "SRC		:\n	$(SRC)\n"
 	@printf "OBJ		:\n	$(OBJ)\n"
 
-
 clean	:
 	rm -rf $(OBJ_DIR)/ $(NAME) $(NAME_UNAME) *~ core *.core
+
+.PHONY: all check show clean

@@ -38,10 +38,10 @@ jobs:
       run: |
         set -x
         if [ "$RUNNER_OS" == "Linux" ]; then
-            sudo apt-get install xvfb xdotool
+            sudo apt-get install xvfb xdotool valgrind
             Xvfb $DISPLAY -screen 0 1280x1024x24 &
         elif [ "$RUNNER_OS" == "macOS" ]; then
-            brew install xdotool
+            brew install xdotool valgrind
             defaults write org.x.X11 enable_test_extensions -boolean true
             sudo Xvfb $DISPLAY -screen 0 1280x1024x24 &           
         else
@@ -50,10 +50,8 @@ jobs:
         fi
     - name: Run ./configure
       run: ./configure
-    - name: Run ./run_tests.sh
-      run: |
-        cd test/
-        ./run_tests.sh
+    - name: make check
+      run: make -f Makefile.gen check 
     - name: Check leaks from binary "test/mlx-test"
       run: |
         cd test
