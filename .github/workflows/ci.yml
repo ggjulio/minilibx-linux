@@ -50,9 +50,13 @@ jobs:
         fi
     - name: Run ./configure
       run: ./configure
-    - name: make check
-      if: matrix.os == 'macos-latest'
+
+    - name: make check Linux
+      if: matrix.os == 'ubuntu-latest'
+      run: make -f Makefile.gen check
+    - name: make check macos
       continue-on-error: true
+      if: matrix.os == 'macos-latest'
       run: make -f Makefile.gen check
     - name: Check leaks from binary "test/mlx-test"
       run: |
