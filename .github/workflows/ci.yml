@@ -68,11 +68,11 @@ jobs:
             sleep 20
             kill $PID && cat output_valgrind
             echo "Info: Still reachable doesn't matter. Valgrind will return success on thoses reports.
-              \n   And it is fine, we searching for lost pointers. Valgrind will return exit code 42 if any block is lost."
+                And it is fine, we searching for lost pointers. Valgrind will return exit status 42 if any block is lost."
         elif [ "$RUNNER_OS" == "macOS" ]; then
             ls /Applications/Xcode.app | true
             ls /Applications/Xcode.app/Contents/Developer/usr/lib | true
-            ./mlx-test
+            ./mlx-test &
             sleep 20
             leaks ./mlx-test
             pkill ./mlx-test
