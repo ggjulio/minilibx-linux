@@ -65,7 +65,7 @@ jobs:
         if [ "$RUNNER_OS" == "Linux" ]; then
             echo "Info: Still reachable doesn't matter. Valgrind will return success on thoses reports.
               It is fine, we searching for lost pointers. Valgrind will return exit status 42 if any block is lost."
-            valgrind --leak-check=full --show-leak-kinds=all --error-exitcode=42 ./mlx-test > /dev/null &
+            valgrind --leak-check=full --show-leak-kinds=definite,indirect,possible --errors-for-leak-kinds=definite,indirect,possible --error-exitcode=42 ./mlx-test > /dev/null &
             PID=$!
             sleep 30
             xdotool search --name Title3 windowfocus key Escape
