@@ -24,7 +24,6 @@ endif
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	echo $(UNAME)
 	$(CC) -o $(NAME) $(OBJ) $(LFLAGS)
 
 show:
