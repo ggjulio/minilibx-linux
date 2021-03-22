@@ -48,7 +48,7 @@ sigint_handler(){
 # look at test/main.c and run ./mlx-test to understand what this function does
 test_default_main(){
 	make -f Makefile.gen all
-	./mlx-test 1>&1 2>&2 &
+	./mlx-test &
 	PID="$!"
 	log_info "./mlx-test running in background, pid:" $PID
 	
