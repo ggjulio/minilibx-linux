@@ -61,7 +61,7 @@ jobs:
 
     - name: Check leaks from binary "test/mlx-test"
       run: |
-        cd tests
+        cd test
         if [ "$RUNNER_OS" == "Linux" ]; then
             valgrind --leak-check=full --show-leak-kinds=all --log-file=output_valgrind --error-exitcode=42 ./mlx-test &
             PID=$!
