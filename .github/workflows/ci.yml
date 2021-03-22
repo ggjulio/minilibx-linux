@@ -70,8 +70,7 @@ jobs:
             echo "Info: Still reachable doesn't matter. Valgrind will return success on thoses reports.
                 And it is fine, we searching for lost pointers. Valgrind will return exit status 42 if any block is lost."
         elif [ "$RUNNER_OS" == "macOS" ]; then
-            ls /Applications/Xcode.app | true
-            ls /Applications/Xcode.app/Contents/Developer/usr/lib | true
+            MallocStackLoggingNoCompact=1
             ./mlx-test &
             sleep 20
             leaks mlx-test
