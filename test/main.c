@@ -93,6 +93,9 @@ int	main()
 {
   int	a;
 
+  void *dede = malloc(542);
+  dede = malloc(542);
+
   printf("MinilibX Test Program\n");
   a = 0x11223344;
   if (((unsigned char *)&a)[0] == 0x11)
